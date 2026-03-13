@@ -1,0 +1,88 @@
+:root {
+  /* Colors */
+  --bg-primary: #0a0e17;
+  --bg-secondary: #121826;
+  --bg-tertiary: #192233;
+  --bg-card: rgba(18, 24, 38, 0.7);
+  --bg-card-hover: rgba(25, 34, 51, 0.9);
+  
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+  
+  --accent-primary: #00ff9d;
+  --accent-primary-glow: rgba(0, 255, 157, 0.2);
+  --accent-primary-hover: #00cc7d;
+  
+  --accent-secondary: #00e5ff;
+  --accent-secondary-glow: rgba(0, 229, 255, 0.2);
+  
+  --danger: #ff5555;
+  --warning: #ffb86c;
+  --success: #50fa7b;
+  --info: #8be9fd;
+  
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-highlight: rgba(0, 255, 157, 0.3);
+}
+
+[data-theme="light"] {
+  /* Colors */
+  --bg-primary: #EFF3FF;
+  --bg-secondary: #C6DBEF;
+  --bg-tertiary: #9ECAE1;
+  --bg-card: rgba(255, 255, 255, 0.8);
+  --bg-card-hover: rgba(255, 255, 255, 1);
+  
+  --text-primary: #084594;
+  --text-secondary: #2171B5;
+  --text-muted: #4292C6;
+  
+  --accent-primary: #084594;
+  --accent-primary-glow: rgba(8, 69, 148, 0.2);
+  --accent-primary-hover: #2171B5;
+  
+  --accent-secondary: #6BAED6;
+  --accent-secondary-glow: rgba(107, 174, 214, 0.2);
+  
+  --danger: #e3342f;
+  --warning: #f6993f;
+  --success: #38c172;
+  --info: #3490dc;
+  
+  --border-color: rgba(8, 69, 148, 0.15);
+  --border-highlight: rgba(8, 69, 148, 0.4);
+}
+
+:root {
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  
+  /* Layout & Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 5rem;
+  
+  --container-width: 1200px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  --shadow-glow: 0 0 15px var(--accent-primary-glow);
+  
+  /* Z-index */
+  --z-base: 1;
+  --z-header: 100;
+  --z-modal: 1000;
+  --z-toast: 2000;
+}
