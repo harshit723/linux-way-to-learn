@@ -27,10 +27,38 @@ export const stages = [
         title: 'Navigation Commands',
         description: 'Move around the filesystem hierarchy seamlessly.',
         commands: [
-          { cmd: 'pwd', action: 'Print current working directory', syntax: 'pwd', examples: ['pwd'] },
-          { cmd: 'ls', action: 'List files and directories', syntax: 'ls [options] [path]', examples: ['ls', 'ls -la', 'ls -lh'] },
-          { cmd: 'cd', action: 'Change directory', syntax: 'cd [path]', examples: ['cd /path', 'cd ~', 'cd ..', 'cd -'] },
-          { cmd: 'tree', action: 'Visual directory tree', syntax: 'tree [path]', examples: ['tree'] }
+          { 
+            cmd: 'pwd', 
+            action: 'Print working directory', 
+            description: 'Shows the full absolute path of the directory you are currently in.',
+            syntax: 'pwd', 
+            examples: ['pwd'],
+            exampleResult: '/home/user'
+          },
+          { 
+            cmd: 'ls', 
+            action: 'List directory contents', 
+            description: 'Lists files and directories in the current or specified directory.',
+            syntax: 'ls [options] [path]', 
+            examples: ['ls', 'ls -la', 'ls -lh'],
+            exampleResult: 'total 4\ndrwxr-xr-x 2 user user 4096 Mar 13 22:00 .\ndrwxr-xr-x 3 root root 4096 Mar 13 21:00 ..\n-rw-r--r-- 1 user user   23 Mar 13 22:00 file.txt'
+          },
+          { 
+            cmd: 'cd', 
+            action: 'Change directory', 
+            description: 'Changes the current working directory to the specified path.',
+            syntax: 'cd [path]', 
+            examples: ['cd /etc', 'cd ~', 'cd ..', 'cd -'],
+            exampleResult: '(Current directory changes to /etc)'
+          },
+          { 
+            cmd: 'tree', 
+            action: 'Display directory tree', 
+            description: 'Displays an interactive, recursive directory structure in a tree-like format.',
+            syntax: 'tree [path]', 
+            examples: ['tree', 'tree /var'],
+            exampleResult: '.\n├── bin\n├── etc\n│   ├── passwd\n│   └── group\n└── home\n    └── user'
+          }
         ]
       },
       {
@@ -38,19 +66,54 @@ export const stages = [
         title: 'File Operations',
         description: 'Create, read, update, move, and destroy files.',
         commands: [
-          { cmd: 'touch', action: 'Create an empty file', syntax: 'touch [file]', examples: ['touch file.txt'] },
-          { cmd: 'mkdir', action: 'Create a directory', syntax: 'mkdir [options] [dir]', examples: ['mkdir dir', 'mkdir -p a/b/c'] },
-          { cmd: 'cp', action: 'Copy a file or directory', syntax: 'cp [options] [src] [dest]', examples: ['cp src dest', 'cp -r src dest'] },
-          { cmd: 'mv', action: 'Move or rename a file/directory', syntax: 'mv [src] [dest]', examples: ['mv src dest'] },
-          { cmd: 'rm', action: 'Delete a file or directory', syntax: 'rm [options] [file]', examples: ['rm file', 'rm -rf dir', 'rmdir dir'] },
-          { cmd: 'cat', action: 'Print file contents', syntax: 'cat [file]', examples: ['cat file'] },
-          { cmd: 'less', action: 'Page through a file', syntax: 'less [file]', examples: ['less file'] },
-          { cmd: 'head', action: 'Show first N lines', syntax: 'head -n [lines] [file]', examples: ['head -n 20 file'] },
-          { cmd: 'tail', action: 'Show last N lines', syntax: 'tail -n [lines] [file]', examples: ['tail -n 20 file', 'tail -f logfile'] },
-          { cmd: 'wc', action: 'Count lines, words, chars', syntax: 'wc -l [file]', examples: ['wc -l file'] },
-          { cmd: 'file', action: 'Determine file type', syntax: 'file [filename]', examples: ['file filename'] },
-          { cmd: 'stat', action: 'Detailed file metadata', syntax: 'stat [file]', examples: ['stat file'] },
-          { cmd: 'ln', action: 'Create a link', syntax: 'ln -s [target] [link]', examples: ['ln -s target link'] }
+          { 
+            cmd: 'touch', 
+            action: 'Create an empty file', 
+            description: 'Creates a new empty file or updates the timestamp of an existing file.',
+            syntax: 'touch [file]', 
+            examples: ['touch notes.txt'],
+            exampleResult: '(New file notes.txt is created)'
+          },
+          { 
+            cmd: 'mkdir', 
+            action: 'Create a directory', 
+            description: 'Creates a new empty directory.',
+            syntax: 'mkdir [options] [dir]', 
+            examples: ['mkdir projects', 'mkdir -p a/b/c'],
+            exampleResult: '(New directory projects is created)'
+          },
+          { 
+            cmd: 'cp', 
+            action: 'Copy file or directory', 
+            description: 'Copies files or directories from one location to another.',
+            syntax: 'cp [options] [src] [dest]', 
+            examples: ['cp file.txt copy.txt', 'cp -r folder/ backup/'],
+            exampleResult: '(File/folder is copied to the destination)'
+          },
+          { 
+            cmd: 'mv', 
+            action: 'Move or rename', 
+            description: 'Moves files or directories to a new location, or renames them.',
+            syntax: 'mv [src] [dest]', 
+            examples: ['mv old.txt new.txt', 'mv file.txt /tmp/'],
+            exampleResult: '(File/folder is moved or renamed)'
+          },
+          { 
+            cmd: 'rm', 
+            action: 'Remove file or directory', 
+            description: 'Deletes files or directories.',
+            syntax: 'rm [options] [file]', 
+            examples: ['rm file.txt', 'rm -rf directory/'],
+            exampleResult: '(File/folder is deleted)'
+          },
+          { 
+            cmd: 'cat', 
+            action: 'Concatenate and print', 
+            description: 'Displays the contents of a file on the terminal.',
+            syntax: 'cat [file]', 
+            examples: ['cat /etc/passwd'],
+            exampleResult: 'root:x:0:0:root:/root:/bin/bash\n...'
+          }
         ]
       }
     ]
@@ -67,27 +130,46 @@ export const stages = [
         title: 'Understanding Permissions',
         description: 'Manage read/write/execute rights for owner, group, and others.',
         commands: [
-          { cmd: 'chmod', action: 'Change file permissions', syntax: 'chmod [permissions] [file]', examples: ['chmod 755 file', 'chmod +x file', 'chmod u-w file', 'chmod g+r file'] },
-          { cmd: 'chown', action: 'Change owner and group', syntax: 'chown [owner]:[group] [file]', examples: ['chown user:group file', 'chown -R user dir'] },
-          { cmd: 'umask', action: 'Set default permissions', syntax: 'umask [mask]', examples: ['umask 022'] }
-        ]
-      },
-      {
-        id: 'users',
-        title: 'User & Group Management',
-        description: 'Handle system identities and privileges.',
-        commands: [
-          { cmd: 'whoami', action: 'Show current user name', syntax: 'whoami', examples: ['whoami'] },
-          { cmd: 'id', action: 'Show user info', syntax: 'id', examples: ['id'] },
-          { cmd: 'su', action: 'Switch to another user', syntax: 'su - [user]', examples: ['su - root'] },
-          { cmd: 'sudo', action: 'Run command with root privileges', syntax: 'sudo [command]', examples: ['sudo command', 'sudo -i'] },
-          { cmd: 'useradd', action: 'Add a new user', syntax: 'useradd [options] [user]', examples: ['useradd username', 'useradd -m -s /bin/bash user'] },
-          { cmd: 'usermod', action: 'Modify user properties', syntax: 'usermod [options] [user]', examples: ['usermod -aG group user'] },
-          { cmd: 'userdel', action: 'Delete a user', syntax: 'userdel -r [user]', examples: ['userdel -r username'] },
-          { cmd: 'passwd', action: 'Change password', syntax: 'passwd [user]', examples: ['passwd username'] },
-          { cmd: 'groupadd', action: 'Create a new group', syntax: 'groupadd [group]', examples: ['groupadd groupname'] },
-          { cmd: 'groups', action: 'List users groups', syntax: 'groups [user]', examples: ['groups username'] },
-          { cmd: 'visudo', action: 'Safely edit sudoers', syntax: 'visudo', examples: ['sudo visudo'] }
+          { 
+            cmd: 'chmod', 
+            action: 'Change permissions', 
+            description: 'Changes the read, write, and execute permissions of a file or directory.',
+            syntax: 'chmod [permissions] [file]', 
+            examples: ['chmod 755 script.sh', 'chmod +x script.sh'],
+            exampleResult: '(Permissions for script.sh are updated)'
+          },
+          { 
+            cmd: 'chown', 
+            action: 'Change ownership', 
+            description: 'Changes the owner and/or group of a file or directory.',
+            syntax: 'chown [owner]:[group] [file]', 
+            examples: ['chown root:root file.txt'],
+            exampleResult: '(Ownership of file.txt is updated)'
+          },
+          { 
+             cmd: 'whoami', 
+             action: 'Show current user', 
+             description: 'Displays the username of the current user.',
+             syntax: 'whoami', 
+             examples: ['whoami'],
+             exampleResult: 'user'
+          },
+          { 
+             cmd: 'id', 
+             action: 'Show user identity', 
+             description: 'Displays the user and group IDs (UID/GID) for the current user.',
+             syntax: 'id', 
+             examples: ['id'],
+             exampleResult: 'uid=1000(user) gid=1000(user) groups=1000(user),27(sudo)'
+          },
+          { 
+             cmd: 'sudo', 
+             action: 'Execute with root privileges', 
+             description: 'Runs a command as the superuser (root) or another user.',
+             syntax: 'sudo [command]', 
+             examples: ['sudo apt update', 'sudo su -'],
+             exampleResult: '[sudo] password for user: '
+          }
         ]
       }
     ]
@@ -104,14 +186,30 @@ export const stages = [
         title: 'Process Management',
         description: 'Monitor and control running programs.',
         commands: [
-          { cmd: 'ps', action: 'List running processes', syntax: 'ps [options]', examples: ['ps aux', 'ps aux | grep nginx'] },
-          { cmd: 'top', action: 'Live process monitor', syntax: 'top', examples: ['top'] },
-          { cmd: 'kill', action: 'Terminate process by ID', syntax: 'kill [PID]', examples: ['kill 1234', 'kill -9 1234'] },
-          { cmd: 'killall', action: 'Kill processes by name', syntax: 'killall [name]', examples: ['killall nginx'] },
-          { cmd: 'jobs', action: 'List background jobs', syntax: 'jobs', examples: ['jobs'] },
-          { cmd: 'fg', action: 'Bring job to foreground', syntax: 'fg %[job_id]', examples: ['fg %1'] },
-          { cmd: 'bg', action: 'Resume job in background', syntax: 'bg %[job_id]', examples: ['bg %1'] },
-          { cmd: 'nohup', action: 'Run command that survives logout', syntax: 'nohup [cmd] &', examples: ['nohup ./script.sh &'] }
+          { 
+            cmd: 'ps', 
+            action: 'Display processes', 
+            description: 'Provides information about the currently running processes.',
+            syntax: 'ps [options]', 
+            examples: ['ps aux', 'ps -ef'],
+            exampleResult: 'USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot         1  0.0  0.1  10240  5120 ?        Ss   Mar13   0:01 /sbin/init'
+          },
+          { 
+            cmd: 'top', 
+            action: 'Interactive monitor', 
+            description: 'Provides a dynamic real-time view of a running system.',
+            syntax: 'top', 
+            examples: ['top'],
+            exampleResult: '(Interactive screen showing system load and processes)'
+          },
+          { 
+            cmd: 'kill', 
+            action: 'Terminate process', 
+            description: 'Sends a signal to a process, usually to terminate it.',
+            syntax: 'kill [PID]', 
+            examples: ['kill 1234', 'kill -9 5678'],
+            exampleResult: '(Process with PID is terminated)'
+          }
         ]
       },
       {
@@ -119,11 +217,30 @@ export const stages = [
         title: 'Text Processing Trio',
         description: 'grep, sed, and awk are the holy trinity of text manipulation.',
         commands: [
-          { cmd: 'grep', action: 'Search text', syntax: 'grep [pattern] [file]', examples: ["grep 'error' file", "grep -r 'error' /var", "grep -v 'debug' file"] },
-          { cmd: 'sed', action: 'Stream Editor', syntax: "sed 's/old/new/g' [file]", examples: ["sed 's/foo/bar/g' file", "sed -i 's/foo/bar/g' file"] },
-          { cmd: 'awk', action: 'Column/Field Processing', syntax: "awk '{print $1}' [file]", examples: ["awk '{print $1}' file", "awk -F: '{print $1}' /etc/passwd"] },
-          { cmd: '| (pipe)', action: 'Chain commands together', syntax: 'cmd1 | cmd2', examples: ['cat file | grep error | wc -l'] },
-          { cmd: '> / >>', action: 'Redirect output to file', syntax: 'cmd > file', examples: ['ls > list.txt', 'echo hello >> list.txt'] }
+          { 
+            cmd: 'grep', 
+            action: 'Search text', 
+            description: 'Searches for a specific pattern within a file or stream.',
+            syntax: 'grep [pattern] [file]', 
+            examples: ["grep 'root' /etc/passwd"],
+            exampleResult: 'root:x:0:0:root:/root:/bin/bash'
+          },
+          { 
+            cmd: 'sed', 
+            action: 'Stream editor', 
+            description: 'Performs basic text transformations on an input stream or file.',
+            syntax: "sed 's/old/new/g' [file]", 
+            examples: ["sed 's/user/admin/g' config.txt"],
+            exampleResult: '(Content with replacements is displayed)'
+          },
+          { 
+            cmd: '| (pipe)', 
+            action: 'Chain commands', 
+            description: 'Redirects the output of one command to the input of another.',
+            syntax: 'cmd1 | cmd2', 
+            examples: ['cat /etc/passwd | grep root'],
+            exampleResult: 'root:x:0:0:root:/root:/bin/bash'
+          }
         ]
       }
     ]
@@ -140,30 +257,30 @@ export const stages = [
         title: 'Package Management',
         description: 'Install, update, and remove software.',
         commands: [
-          { cmd: 'apt', action: 'Debian/Ubuntu packages', syntax: 'apt [action] [package]', examples: ['apt update', 'apt install nginx', 'apt remove nginx'] }
-        ]
-       },
-       {
-        id: 'networking',
-        title: 'Networking Commands',
-        description: 'Configure interfaces, test connectivity, view ports.',
-        commands: [
-          { cmd: 'ip', action: 'Show IP addresses and routes', syntax: 'ip [obj]', examples: ['ip addr', 'ip route'] },
-          { cmd: 'ping', action: 'Test connectivity', syntax: 'ping [host]', examples: ['ping google.com', 'ping -c 4 8.8.8.8'] },
-          { cmd: 'netstat', action: 'Show network status', syntax: 'netstat [options]', examples: ['netstat -tulpn'] },
-          { cmd: 'curl', action: 'Fetch URL content', syntax: 'curl [url]', examples: ['curl http://example.com'] },
-          { cmd: 'wget', action: 'Download files', syntax: 'wget [url]', examples: ['wget http://example.com/file.zip'] },
-          { cmd: 'ufw', action: 'Firewall config', syntax: 'ufw [action]', examples: ['ufw status', 'ufw allow 22'] }
-        ]
-       },
-       {
-        id: 'ssh',
-        title: 'Secure Shell (SSH)',
-        description: 'Remote access and secure copy.',
-        commands: [
-          { cmd: 'ssh', action: 'Connect to remote host', syntax: 'ssh user@host', examples: ['ssh root@192.168.1.10'] },
-          { cmd: 'scp', action: 'Secure copy files', syntax: 'scp [src] [dest]', examples: ['scp file.txt user@host:/tmp'] },
-          { cmd: 'ssh-keygen', action: 'Generate SSH keys', syntax: 'ssh-keygen', examples: ['ssh-keygen'] }
+          { 
+            cmd: 'apt', 
+            action: 'Package manager', 
+            description: 'A powerful tool for managing software packages on Debian-based systems.',
+            syntax: 'apt [action] [package]', 
+            examples: ['sudo apt update', 'sudo apt install git'],
+            exampleResult: 'Reading package lists... Done\nBuilding dependency tree... Done'
+          },
+          { 
+            cmd: 'ping', 
+            action: 'Test connectivity', 
+            description: 'Checks if a remote host is reachable over the network.',
+            syntax: 'ping [host]', 
+            examples: ['ping google.com'],
+            exampleResult: '64 bytes from ...: icmp_seq=1 ttl=118 time=15.2 ms'
+          },
+          { 
+            cmd: 'ssh', 
+            action: 'Secure Shell', 
+            description: 'Provides a secure way to access a remote computer over an unsecured network.',
+            syntax: 'ssh user@host', 
+            examples: ['ssh root@192.168.1.1'],
+            exampleResult: 'root@192.168.1.1 password: '
+          }
         ]
        }
     ]
@@ -180,46 +297,39 @@ export const stages = [
         title: 'Service Management (systemd)',
         description: 'Start, stop, and enable background services.',
         commands: [
-          { cmd: 'systemctl', action: 'Manage system services', syntax: 'systemctl [action] [service]', examples: ['systemctl status nginx', 'systemctl restart nginx', 'systemctl enable nginx'] },
-          { cmd: 'journalctl', action: 'View system logs', syntax: 'journalctl [options]', examples: ['journalctl -u nginx', 'journalctl -f'] }
+          { 
+            cmd: 'df', 
+            action: 'Disk free space', 
+            description: 'Displays the amount of available disk space on file systems.',
+            syntax: 'df -h', 
+            examples: ['df -h'],
+            exampleResult: 'Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        50G   12G   38G  24% /'
+          },
+          { 
+            cmd: 'systemctl', 
+            action: 'Service manager', 
+            description: 'Used to control the systemd system and service manager.',
+            syntax: 'systemctl [action] [service]', 
+            examples: ['systemctl status nginx', 'systemctl start docker'],
+            exampleResult: '● nginx.service - A high performance web server\n   Loaded: loaded'
+          },
+          { 
+            cmd: 'find', 
+            action: 'Search files', 
+            description: 'Searches for files in a directory hierarchy based on various criteria.',
+            syntax: 'find [path] [criteria]', 
+            examples: ["find /home -name '*.txt'"],
+            exampleResult: '/home/user/notes.txt'
+          },
+          { 
+            cmd: 'htop', 
+            action: 'Interactive processes', 
+            description: 'An interactive system-monitor process-viewer and process-manager.',
+            syntax: 'htop', 
+            examples: ['htop'],
+            exampleResult: '(Interactive color-coded process viewer)'
+          }
         ]
-      },
-      {
-        id: 'disk',
-        title: 'Disk & Storage',
-        description: 'Monitor space, mounts, and filesystems.',
-        commands: [
-          { cmd: 'df', action: 'Disk free space', syntax: 'df -h', examples: ['df -h'] },
-          { cmd: 'du', action: 'Disk usage by directory', syntax: 'du -sh [dir]', examples: ['du -sh /var'] },
-          { cmd: 'mount', action: 'Mount filesystem', syntax: 'mount [device] [dir]', examples: ['mount /dev/sda1 /mnt'] }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'stage6',
-    title: 'Stage 6: Advanced Commands',
-    duration: 'Weeks 15+',
-    description: 'find, performance tuning, system tracking.',
-    icon: '🚀',
-    categories: [
-      {
-         id: 'find',
-         title: 'The "find" Command',
-         description: 'Search for files by deeply nested criteria.',
-         commands: [
-           { cmd: 'find', action: 'Search filesystem hierarchy', syntax: 'find [path] [criteria]', examples: ["find /var -name '*.log'", "find / -type f -size +100M", "find . -mtime -7"] }
-         ]
-      },
-      {
-         id: 'perf',
-         title: 'Performance Monitoring',
-         description: 'Deep dive into what your system is doing.',
-         commands: [
-           { cmd: 'htop', action: 'Interactive process viewer', syntax: 'htop', examples: ['htop'] },
-           { cmd: 'strace', action: 'Trace system calls', syntax: 'strace -p [PID]', examples: ['strace -p 1234'] },
-           { cmd: 'lsof', action: 'List open files', syntax: 'lsof [options]', examples: ['lsof', 'lsof -i :80'] }
-         ]
       }
     ]
   }

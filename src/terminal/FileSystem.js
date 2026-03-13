@@ -15,7 +15,7 @@ export class FileSystem {
   }
 
   initDefaultSystem() {
-    ['bin', 'sbin', 'etc', 'home', 'root', 'var', 'tmp', 'usr', 'dev'].forEach(dir => {
+    ['bin', 'sbin', 'etc', 'home', 'root', 'var', 'tmp', 'usr', 'dev', 'lib', 'lib64', 'media', 'mnt', 'opt', 'proc', 'run', 'sys', 'srv'].forEach(dir => {
       this.mkdir(`/${dir}`, 'root', 'root');
     });
     

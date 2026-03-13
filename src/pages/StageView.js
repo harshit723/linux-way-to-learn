@@ -76,23 +76,42 @@ export const StageView = ({ id }) => {
             </label>
           </div>
           
-          <h4 style="margin-bottom: 0.5rem">${cmd.action || cmd.desc || ''}</h4>
+          <h4 class="command-action-header" data-cmd="${cmd.cmd}" style="margin-bottom: 0.5rem; cursor: pointer; color: var(--text-primary); transition: color 0.2s; display: flex; align-items: center; gap: 0.5rem;">
+            ${cmd.action || cmd.desc || ''}
+            <span style="font-size: 0.8rem; opacity: 0.5;">▼</span>
+          </h4>
           
           <div style="background: var(--bg-secondary); padding: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); margin-top: 1rem;">
             <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.2rem; text-transform: uppercase;">Syntax</div>
-            <code>${cmd.syntax || cmd.cmd}</code>
+            <code style="word-break: break-all;">${cmd.syntax || cmd.cmd}</code>
           </div>
           
           <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--border-color); display: flex; justify-content: space-between; align-items: center">
-            <button class="btn btn-secondary btn-sm bg-tertiary toggle-details-btn" data-cmd="${cmd.cmd}" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;">View Examples</button>
+            <button class="btn btn-secondary btn-sm bg-tertiary toggle-details-btn" data-cmd="${cmd.cmd}" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;">View Details</button>
             <button class="btn btn-primary btn-sm mark-learned-btn" data-cmd="${cmd.cmd}" ${isComplete ? 'disabled style="opacity:0.5"' : ''} style="padding: 0.2rem 0.5rem; font-size: 0.8rem;">
               ${isComplete ? '✓ Learned' : 'Mark Learned'}
             </button>
           </div>
 
-          <div class="examples-panel" id="examples-${cmd.cmd.replace(/\W/g, '')}" style="display: none; margin-top: 1rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 4px;">
-            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Examples:</div>
-            ${(cmd.examples || []).map(ex => `<div style="font-family: var(--font-mono); color: var(--accent-secondary); font-size: 0.9rem; margin-bottom: 0.3rem;">$ ${ex}</div>`).join('') || '<div style="color: var(--text-muted); font-size: 0.9rem">No examples provided.</div>'}
+          <div class="examples-panel" id="examples-${cmd.cmd.replace(/\W/g, '')}" style="display: none; margin-top: 1rem; background: rgba(0,0,0,0.25); padding: 1.2rem; border-radius: 6px; border-left: 3px solid var(--accent-primary);">
+            ${cmd.description ? `
+              <div style="margin-bottom: 1.2rem;">
+                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">Explanation</div>
+                <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-primary); margin: 0;">${cmd.description}</p>
+              </div>
+            ` : ''}
+
+            <div style="margin-bottom: 1.2rem;">
+              <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">Example Usage</div>
+              ${(cmd.examples || []).map(ex => `<div style="font-family: var(--font-mono); color: var(--accent-secondary); font-size: 0.9rem; margin-bottom: 0.3rem; background: rgba(0,0,0,0.3); padding: 0.3rem 0.6rem; border-radius: 4px;">$ ${ex}</div>`).join('') || '<div style="color: var(--text-muted); font-size: 0.9rem">No examples provided.</div>'}
+            </div>
+
+            ${cmd.exampleResult ? `
+              <div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">Expected Result</div>
+                <pre style="margin: 0; background: #1a1a1a; padding: 0.8rem; border-radius: 4px; font-size: 0.85rem; color: #a6e22e; overflow-x: auto; font-family: var(--font-mono); line-height: 1.4;">${cmd.exampleResult}</pre>
+              </div>
+            ` : ''}
           </div>
         </div>
       `;
@@ -107,21 +126,31 @@ export const StageView = ({ id }) => {
   container.innerHTML = html;
 
   // Add interactions
-  container.querySelectorAll('.toggle-details-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const cmd = e.target.getAttribute('data-cmd');
-      const panelId = `examples-${cmd.replace(/\W/g, '')}`;
-      const panel = container.querySelector(`#${panelId}`);
-      if (panel) {
-        if (panel.style.display === 'none') {
-          panel.style.display = 'block';
-          panel.classList.add('animate-fade-in');
-          e.target.textContent = 'Hide Examples';
-        } else {
-          panel.style.display = 'none';
-          e.target.textContent = 'View Examples';
-        }
+  const togglePanel = (el) => {
+    const cmd = el.getAttribute('data-cmd');
+    const panelId = `examples-${cmd.replace(/\W/g, '')}`;
+    const panel = container.querySelector(`#${panelId}`);
+    if (panel) {
+      if (panel.style.display === 'none') {
+        panel.style.display = 'block';
+        panel.classList.add('animate-fade-in');
+        const btn = container.querySelector(`.toggle-details-btn[data-cmd="${cmd}"]`);
+        if (btn) btn.textContent = 'Hide Details';
+        const span = container.querySelector(`.command-action-header[data-cmd="${cmd}"] span`);
+        if (span) span.textContent = '▲';
+      } else {
+        panel.style.display = 'none';
+        const btn = container.querySelector(`.toggle-details-btn[data-cmd="${cmd}"]`);
+        if (btn) btn.textContent = 'View Details';
+        const span = container.querySelector(`.command-action-header[data-cmd="${cmd}"] span`);
+        if (span) span.textContent = '▼';
       }
+    }
+  };
+
+  container.querySelectorAll('.toggle-details-btn, .command-action-header').forEach(el => {
+    el.addEventListener('click', (e) => {
+      togglePanel(e.currentTarget);
     });
   });
 
