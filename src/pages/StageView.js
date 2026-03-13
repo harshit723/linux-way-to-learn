@@ -94,10 +94,10 @@ export const StageView = ({ id }) => {
           </div>
 
           <div class="examples-panel" id="examples-${cmd.cmd.replace(/\W/g, '')}" style="display: none; margin-top: 1rem; background: rgba(0,0,0,0.25); padding: 1.2rem; border-radius: 6px; border-left: 3px solid var(--accent-primary);">
-            ${cmd.description ? `
+            ${(cmd.description || cmd.desc || cmd.action) ? `
               <div style="margin-bottom: 1.2rem;">
                 <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">Explanation</div>
-                <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-primary); margin: 0;">${cmd.description}</p>
+                <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-primary); margin: 0;">${cmd.description || cmd.desc || cmd.action}</p>
               </div>
             ` : ''}
 

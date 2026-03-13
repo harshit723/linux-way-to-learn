@@ -11,15 +11,69 @@ export const stages = [
         title: 'The Linux Filesystem Hierarchy',
         description: 'Everything in Linux is a file. The filesystem starts at / (root) and branches into key directories.',
         commands: [
-          { cmd: '/bin', desc: 'Essential user binaries (ls, cp, mv, grep)' },
-          { cmd: '/sbin', desc: 'System binaries for root (fdisk, ifconfig)' },
-          { cmd: '/etc', desc: 'Configuration files for all programs' },
-          { cmd: '/home', desc: 'Home directories for normal users' },
-          { cmd: '/root', desc: 'Home directory for the root user' },
-          { cmd: '/var', desc: 'Variable data: logs, databases, mail' },
-          { cmd: '/tmp', desc: 'Temporary files — cleared on reboot' },
-          { cmd: '/usr', desc: 'User programs, libraries, documentation' },
-          { cmd: '/dev', desc: 'Device files (hard disks, USB, terminals)' }
+          { 
+            cmd: '/bin', 
+            description: 'Essential user binaries (ls, cp, mv, grep). These are required for the system to boot and run in single-user mode.',
+            syntax: '/bin',
+            examples: ['ls /bin'],
+            exampleResult: 'bash  cat  cp  grep  ls  mv  rm  sh  tar'
+          },
+          { 
+            cmd: '/sbin', 
+            description: 'System binaries for root (fdisk, ifconfig). These are essential commands mainly used by the system administrator.',
+            syntax: '/sbin',
+            examples: ['ls /sbin'],
+            exampleResult: 'fdisk  ifconfig  iptables  reboot  swapon'
+          },
+          { 
+            cmd: '/etc', 
+            description: 'Configuration files for all programs. This directory contains the configuration files for the system and its applications.',
+            syntax: '/etc',
+            examples: ['ls /etc/passwd'],
+            exampleResult: 'root:x:0:0:root:/root:/bin/bash'
+          },
+          { 
+            cmd: '/home', 
+            description: 'Home directories for normal users. Each user has their own subdirectory here to store personal files and settings.',
+            syntax: '/home',
+            examples: ['cd /home/user'],
+            exampleResult: '(Current directory changes to /home/user)'
+          },
+          { 
+            cmd: '/root', 
+            description: 'Home directory for the root user. Unlike normal users, the root user\'s home directory is not in /home.',
+            syntax: '/root',
+            examples: ['sudo ls /root'],
+            exampleResult: '.bashrc  .profile'
+          },
+          { 
+            cmd: '/var', 
+            description: 'Variable data: logs, databases, mail. This directory contains files that change frequently as the system runs.',
+            syntax: '/var',
+            examples: ['ls /var/log'],
+            exampleResult: 'auth.log  syslog  messages  nginx/'
+          },
+          { 
+            cmd: '/tmp', 
+            description: 'Temporary files — cleared on reboot. A place for applications to store files they only need for a short time.',
+            syntax: '/tmp',
+            examples: ['ls /tmp'],
+            exampleResult: '(List of temporary files)'
+          },
+          { 
+            cmd: '/usr', 
+            description: 'User programs, libraries, documentation. This is where most user-installed software and libraries reside.',
+            syntax: '/usr',
+            examples: ['ls /usr/bin'],
+            exampleResult: 'python3  git  vim  gcc'
+          },
+          { 
+            cmd: '/dev', 
+            description: 'Device files (hard disks, USB, terminals). Linux treats hardware devices as files in this directory.',
+            syntax: '/dev',
+            examples: ['ls /dev/sda*'],
+            exampleResult: '/dev/sda  /dev/sda1  /dev/sda2'
+          }
         ]
       },
       {
